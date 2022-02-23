@@ -1,36 +1,79 @@
-# ENVT3361
+#       ______ _   ___      _________ ____ ____    __ __ 
+#      |  ____| \ | \ \    / /__   __|___ \___ \  / //_ |
+#      | |__  |  \| |\ \  / /   | |    __) |__) |/ /_ | |
+#      |  __| | . ` | \ \/ /    | |   |__ <|__ <| '_ \| |
+#      | |____| |\  |  \  /     | |   ___) |__) | (_) | |
+#      |______|_| \_|   \/      |_|  |____/____/ \___/|_|
+#     __                       __    ____    _                    _     _                     ____  
+#    / /  _ __    ___          \ \  / ___|  | |_    __ _   _ __  | |_  (_)  _ __     __ _    |  _ \ 
+#   | |  | '__|  / _ \  _____   | | \___ \  | __|  / _` | | '__| | __| | | | '_ \   / _` |   | |_) |
+#   | |  | |    |  __/ |_____|  | |  ___) | | |_  | (_| | | |    | |_  | | | | | | | (_| |   |  _ < 
+#   | |  |_|     \___|          | | |____/   \__|  \__,_| |_|     \__| |_| |_| |_|  \__, |   |_| \_\
+#    \_\                       /_/                                                  |___/           
 
 #### Reading the data ####
-hubbard <- read.csv("hubbard.csv", stringsAsFactors = T)
+hubbard <- read.csv(file = "hubbard.csv", stringsAsFactors = TRUE)
+# ... and do a quick check
+is.data.frame(hubbard) # check that it worked
+
+# First proper check - summarise some of the data
+summary(hubbard[,1:10]) # just the first 10 columns
+
+#### First proper check - summarise some of the data ####
+summary(hubbard[,1:10]) # just the first 10 columns
+
+# The summary() function creates a little table for each column - note
+# that not all these little tables looks the same. Integer or numeric columns
+# get a numeric summary with minimum, mean etc., and sometime the number
+# of missing (NA) values. Categorical (Factor) columns show the
+# number of samples (rows) in each category (unless there are too many
+# categories). These summaries are useful to check if there are zero or negative
+# values in columns, how many missing observations there might be, and if the
+# data have been read correctly into R.
+#
+# [Note: we could have specified something like hubbard[1:10,]
+# which would have worked on the first 10 rows (also called
+# 'observations' or 'samples), or hubbard[1:20,6:10] which would have
+# used only the first 20 rows of columns 6 to 10.]
+
+##### Final checks of the data frame ####
+
+# Usually we would not restrict the output as done below with [,1:20].
+# We only do it here so we're not bored with pages of similar-looking output.
+# You should look at structure for the whole data frame using
+# str(hubbard) (or whatever your data object is called).
+
+str(hubbard[,1:20]) # 'str' gives the structure of an object
+
+# We can see that some columns are integer values (e.g. PLOT, UTM_EASTING),
+# some columns contain Factor values i.e. in fixed categories
+# (e.g. Rel.To.Brook, Transect), and some columns are numeric
+# (e.g. PH, OM.pct, Ni). Applying the str() function to a data
+# object is **always** a good idea, to check that the data have read correctly
+# into R. [NOTE that other variable types are possible such as character
+# 'chr', date ('Date' or 'POSIXct'), logical, etc.]
+
 
 #### Base R plotting: x-y plot using plot() ####
+
 # We can use either plot(x, y, ...) OR plot(y ~ x, ...)
 #   In R the ~ symbol means 'as a function of', so ~ indicates a formula.
 #
-# first make 'hubbard' the default data object, so we don't need to 
-# specify it
-# can use plot(x, y, ...) OR plot(y ~ x, ...)
-# In R the ~ symbol means 'as a function of', so ~ indicates a formula
-# if we didn't attach(hubbard), we would have to use:
-# plot(hubbard$EXCH_Al ~ hubbard$PH)
-
-
-
 
 # these 3 chunks of code do exactly the same thing:
 
-# 1
-attach(hubbard)
-plot(EXCH_Al ~ PH)
-detach(hubbard)
-
-# 2        (we recommend this one!)
+# 1        (we recommend this one!)
 with(hubbard,
      plot(EXCH_Al ~ PH)
      )
 
-# 3
+# 2
 plot(hubbard$EXCH_Al ~ hubbard$PH)
+
+# 3
+attach(hubbard)
+  plot(EXCH_Al ~ PH)
+detach(hubbard)
 
 
 # Without changing any of the (numerous) options or parameters in 
@@ -101,6 +144,7 @@ legend("topleft", legend=levels(hubbard$Rel.To.Brook), pch=c(1,16),
 # _._._._._._._._._._._._._._._._._._._._._._._._._._._._._._._._.
 # 
 #### Alternative to base-R plot: scatterplot (from 'car' package) ####
+
 # The R package 'car' (Companion to Applied Regression) has many useful 
 # additional functions that extend the capability of R. 
 # The next two examples produce the same plot as in the previous examples, 
@@ -154,8 +198,10 @@ scatterplot(EXCH_Al ~ PH | Rel.To.Brook, data=hubbard, smooth=FALSE,
 # This is pretty similar to the base R plot above (we can also customise 
 # the axis titles in scatterplot(), using xlab= and ylab= as before).
 # _._._._._._._._._._._._._._._._._._._._._._._._._._._._._._._._.
-# 
+
+
 #### Other types of data presentation: plot types and tables ####
+
 # We'll give you some starting code chunks, and the output from them. 
 #   You can then use the help in R Studio to try to customise the plots 
 #   according to the suggestions below each plot!
