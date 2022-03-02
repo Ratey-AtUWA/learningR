@@ -219,7 +219,7 @@ boxplot(MOISTURE.pct ~ Rel.To.Brook, data=hubbard)
 #     ...and so on.
 # 
 #### Histograms ####
-hist(MOISTURE.pct, data=hubbard)
+with(hubbard, hist(MOISTURE.pct))
 ## For histograms, try the following:
 #     add suitable axis labels (titles)
 #     make bars a different colour (all the same)
